@@ -1,0 +1,168 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh14540\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 CREATE schema LibraryManagement\
+\
+CREATE table LibraryManagement.authors (\
+	author_id SERIAL PRIMARY KEY,\
+	author_name VARCHAR\
+)\
+\
+CREATE table LibraryManagement.genres (\
+	genre_id SERIAL PRIMARY KEY,\
+	genre_name VARCHAR\
+)\
+\
+CREATE table LibraryManagement.books (\
+	book_id SERIAL PRIMARY KEY,\
+	title VARCHAR,\
+	publication_year SMALLINT,\
+	author_id INT,\
+	genre_id INT,\
+	FOREIGN KEY (author_id) REFERENCES LibraryManagement.authors(author_id),\
+	FOREIGN KEY (genre_id) REFERENCES LibraryManagement.genres (genre_id)\
+)\
+\
+CREATE table LibraryManagement.users (\
+	user_id SERIAL PRIMARY KEY,\
+	username VARCHAR,\
+	email VARCHAR\
+)\
+\
+CREATE table LibraryManagement.borrowed_books (\
+	borrow_id SERIAL PRIMARY KEY,\
+	book_id INT,\
+	user_id INT,\
+	borrow_date SMALLINT,\
+	return_date SMALLINT,\
+	FOREIGN KEY (book_id) REFERENCES LibraryManagement.books(book_id),\
+	FOREIGN KEY (user_id) REFERENCES LibraryManagement.users(user_id)\
+)\
+\
+INSERT INTO LibraryManagement.authors (author_name)\
+VALUES ('Jordan Peterson'), ('Jesus Christ');\
+\
+INSERT INTO LibraryManagement.genres (genre_name)\
+VALUES ('Documentary'), ('Fantasy');\
+\
+INSERT INTO LibraryManagement.books (title, publication_year, author_id, genre_id)\
+VALUES ('Tom Sawyer', 2024, 1, 2), ('12 Rules', 2017, 2, 1);\
+\
+INSERT INTO LibraryManagement.users (username, email)\
+VALUES ('Maggie', 'Maggie@Maggie.com'), ('Jose', 'Jose@Jose.com');\
+\
+INSERT INTO LibraryManagement.borrowed_books (book_id, user_id, borrow_date, return_date)\
+VALUES (1, 1, 2010, 2050), (2, 2, 2015, 3015);\
+\
+SELECT * \
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+;\
+\
+SELECT COUNT(*) \
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+;\
+\
+SELECT COUNT(*) \
+	FROM orders\
+	LEFT JOIN customers ON orders.customer_id = customers.id\
+	RIGHT JOIN employees ON orders.employee_id  = employees.employee_id\
+	LEFT JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+;\
+\uc0\u1082 \u1110 \u1083 \u1100 \u1082 \u1110 \u1089 \u1090 \u1100  \u1085 \u1077  \u1079 \u1084 \u1110 \u1085 \u1080 \u1083 \u1072 \u1089 \u1100 , \u1073 \u1086  NULL \u1074 \u1110 \u1076 \u1089 \u1091 \u1090 \u1085 \u1110 \u1081  \u1074  \u1110 \u1085 \u1096 \u1080 \u1093  \u1090 \u1072 \u1073 \u1083 \u1080 \u1094 \u1103 \u1093 , \u1091  \u1074 \u1089 \u1110 \u1093  \u1079 \u1072 \u1087 \u1080 \u1089 \u1110 \u1074  \u1108  \u1074 \u1110 \u1076 \u1087 \u1086 \u1074 \u1110 \u1076 \u1085 \u1110  \u1079 \u1072 \u1087 \u1080 \u1089 \u1080  \u1074  \u1110 \u1085 \u1096 \u1080 \u1093  \u1090 \u1072 \u1073 \u1083 \u1080 \u1094 \u1103 \u1093 \
+\
+SELECT COUNT(*) \
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+	WHERE employees.employee_id > 3 AND employees.employee_id <= 10\
+;\
+\
+SELECT COUNT(*), AVG(order_details.quantity)\
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+	WHERE employees.employee_id > 3 AND employees.employee_id <= 10\
+	GROUP BY categories.name\
+\
+;\
+\
+SELECT COUNT(*), AVG(order_details.quantity)\
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+	WHERE employees.employee_id > 3 AND employees.employee_id <= 10\
+	GROUP BY categories.name\
+	HAVING AVG(order_details.quantity) > 21\
+;\
+\
+SELECT COUNT(*), AVG(order_details.quantity)\
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+	WHERE employees.employee_id > 3 AND employees.employee_id <= 10\
+	GROUP BY categories.name\
+	HAVING AVG(order_details.quantity) > 21\
+	ORDER BY count DESC\
+\
+SELECT COUNT(*), AVG(order_details.quantity)\
+	FROM orders\
+	INNER JOIN customers ON orders.customer_id = customers.id\
+	INNER JOIN employees ON orders.employee_id  = employees.employee_id\
+	INNER JOIN shippers ON orders.shipper_id  = shippers.id\
+	INNER JOIN order_details ON orders.id = order_details.order_id\
+	INNER JOIN products ON order_details.product_id = products.id\
+	INNER JOIN suppliers ON products.supplier_id = suppliers.id\
+	INNER JOIN categories ON products.category_id = categories.id\
+	WHERE employees.employee_id > 3 AND employees.employee_id <= 10\
+	GROUP BY categories.name\
+	HAVING AVG(order_details.quantity) > 21\
+	ORDER BY count DESC\
+	LIMIT 4 OFFSET 1\
+;\
+\
+\
+\
+\
+}
